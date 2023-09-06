@@ -6,13 +6,14 @@ const User = sequelize.define('user', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    lasName: {
+    lastName: {
         type: DataTypes.STRING,
         allowNull: false
     },
     mail: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique:true
     },
     phone: {
         type: DataTypes.STRING,
@@ -26,7 +27,17 @@ const User = sequelize.define('user', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
    
 });
+
+User.prototype.toJSON = function () {
+   const values = { ...this.get() };
+   delete values.password ;
+   return values;
+};
 
 module.exports = User;
