@@ -3,16 +3,24 @@ const Elemento = require('../models/Elemento');
 const User = require('../models/User');
 
 const getAll = catchError(async(req, res) => {
+    const userId=req.user.id
     const results = await Elemento.findAll({
         include:[User],
-        attributes:{exclude:['createdAt','updatedAt']}
+        attributes:{exclude:['createdAt','updatedAt']},
+        where:{userId}
     
     });
     return res.json(results);
 });
 
 const create = catchError(async(req, res) => {
-    const result = await Elemento.create(req.body);
+    const userId=req.user.id
+    //traer un usuario
+    // const {description,amount,justification,responsible,supplier,priority}=req.body
+    // const body={description,amount,justification,responsible,supplier,priority,userId}
+    //opción 2 para traer el usuario 
+    const body={...req.body, userId}
+    const result = await Elemento.create(body);
     return res.status(201).json(result);
 });
 

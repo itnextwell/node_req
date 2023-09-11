@@ -2,6 +2,8 @@ const catchError = require('../utils/catchError');
 const User = require('../models/User');
 const Elemento = require('../models/Elemento');
 const bcrypt=require('bcrypt')
+const jwt=require('jsonwebtoken')
+
 
 const getAll = catchError(async(req, res) => {
     const results = await User.findAll({
@@ -42,6 +44,7 @@ const remove = catchError(async(req, res) => {
 const update = catchError(async(req, res) => {
     const { id } = req.params;
     delete req.body.password
+    delete req.body.mail
     const result = await User.update(
         req.body,
         { where: {id}, returning: true }
@@ -57,7 +60,14 @@ const login=catchError(async(req,res)=>{
 
     const isValid=await bcrypt.compare(password,user.password)
     if(!isValid) return res.sendStatus(401)
-    return res.json(user)
+
+    const token=jwt.sign(
+        {user}, 
+        process.env.TOKEN_SECRET,
+        { expiresIn: '1d' });
+
+
+    return res.json({user,token})
 })
 
 module.exports = {

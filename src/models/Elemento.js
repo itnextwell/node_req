@@ -26,6 +26,7 @@ const Elemento = sequelize.define('elemento', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
+    //userId
 });
 
 module.exports = Elemento;

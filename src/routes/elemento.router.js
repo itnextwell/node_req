@@ -1,6 +1,7 @@
 const { getAll, create, getOne, remove, update } = require('../controllers/elemento.controller');
 const express = require('express');
 
+
 const routerElemento = express.Router();
 
 routerElemento.route('/')
