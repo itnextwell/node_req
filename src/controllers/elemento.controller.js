@@ -2,15 +2,24 @@ const catchError = require('../utils/catchError');
 const Elemento = require('../models/Elemento');
 const User = require('../models/User');
 
+
 const getAll = catchError(async(req, res) => {
     const userId=req.user.id
-    const results = await Elemento.findAll({
-        include:[User],
-        attributes:{exclude:['createdAt','updatedAt']},
-        where:{userId}
+    const userRol=req.user.rol
     
-    });
-    return res.json(results);
+    if(userRol==='admin'){
+        const results = await Elemento.findAll();
+        return res.json(results);
+
+    }else{
+        const results = await Elemento.findAll({
+            include:[User],
+            attributes:{exclude:['createdAt','updatedAt']},
+            where:{userId}
+        
+        });
+        return res.json(results);
+    }
 });
 
 const create = catchError(async(req, res) => {
@@ -37,9 +46,15 @@ const getOne = catchError(async(req, res) => {
 
 const remove = catchError(async(req, res) => {
     const { id } = req.params;
-    const result = await Elemento.destroy({ where: {id} });
-    if(!result) return res.sendStatus(404);
-    return res.sendStatus(204);
+    const userRol=req.user.rol
+    if(userRol==='admin'){
+        const result = await Elemento.destroy({ where: {id} });
+        if(!result) return res.sendStatus(404);
+        return res.sendStatus(204);
+    }else{
+        return res.status(403).json({ error: 'No tienes permiso para editar usuarios.' });
+    }
+    
 });
 
 const update = catchError(async(req, res) => {

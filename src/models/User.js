@@ -31,6 +31,10 @@ const User = sequelize.define('user', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    rol: {
+        type: DataTypes.ENUM('admin','edit','lector'),
+        allowNull: false
+    },
    
 });
 

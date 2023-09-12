@@ -16,9 +16,9 @@ const getAll = catchError(async(req, res) => {
 });
 
 const create = catchError(async(req, res) => {
-    const {name, lastName,mail,phone,post,identification,password}=req.body
+    const {name, lastName,mail,phone,post,identification,password,rol}=req.body
     const hashPasword= await bcrypt.hash(password,10)
-    const body= {name, lastName,mail,phone,post,identification,password:hashPasword}
+    const body= {name, lastName,mail,phone,post,identification,password:hashPasword,rol}
     console.log(body)
     const result = await User.create(body);
     return res.status(201).json(result);
