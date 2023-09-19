@@ -1,6 +1,7 @@
 const catchError = require('../utils/catchError');
 const Elemento = require('../models/Elemento');
 const User = require('../models/User');
+const Request = require('../models/Request');
 
 
 const getAll = catchError(async(req, res) => {
@@ -8,12 +9,14 @@ const getAll = catchError(async(req, res) => {
     const userRol=req.user.rol
     
     if(userRol==='admin'){
-        const results = await Elemento.findAll();
+        const results = await Elemento.findAll({
+            include:[User,Request],
+            attributes:{exclude:['createdAt','updatedAt']}});
         return res.json(results);
 
     }else{
         const results = await Elemento.findAll({
-            include:[User],
+            include:[User,Request],
             attributes:{exclude:['createdAt','updatedAt']},
             where:{userId}
         
@@ -35,6 +38,7 @@ const create = catchError(async(req, res) => {
 
 const getOne = catchError(async(req, res) => {
     const { id } = req.params;
+    
     const result = await Elemento.findByPk(id,{
         include:[User],
         attributes:{exclude:['createdAt','updatedAt']}
