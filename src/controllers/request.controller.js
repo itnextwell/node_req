@@ -3,7 +3,7 @@ const Request = require('../models/Request');
 const Elemento = require('../models/Elemento');
 
 const getAll = catchError(async(req, res) => {
-    console.log(req.user)
+    
     const results = await Request.findAll({
         include:[Elemento],
         attributes:{exclude:['createdAt','updatedAt']},
@@ -13,9 +13,8 @@ const getAll = catchError(async(req, res) => {
 });
 
 const create = catchError(async(req, res) => {
-    const elementId=req.elemento
-    console.log(elementId)
     
+    console.log(req.body)
     const result = await Request.create(req.body);
     return res.status(201).json(result);
 });

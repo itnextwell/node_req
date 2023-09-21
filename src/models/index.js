@@ -6,6 +6,6 @@ const User = require("./User");
 User.hasMany(Elemento)//userId
 Elemento.belongsTo(User)
 
-//Element ->RequestId
-Request.hasMany(Elemento)
-Elemento.belongsTo(Request)
+//Request ->ElementId
+Elemento.hasMany(Request)
+Request.belongsTo(Elemento)

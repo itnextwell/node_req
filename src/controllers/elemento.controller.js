@@ -10,8 +10,9 @@ const getAll = catchError(async(req, res) => {
     
     if(userRol==='admin'){
         const results = await Elemento.findAll({
-            include:[User,Request],
-            attributes:{exclude:['createdAt','updatedAt']}});
+            include:[Request],
+            attributes:{exclude:['createdAt','updatedAt']},
+        });
         return res.json(results);
 
     }else{
@@ -38,7 +39,6 @@ const create = catchError(async(req, res) => {
 
 const getOne = catchError(async(req, res) => {
     const { id } = req.params;
-    
     const result = await Elemento.findByPk(id,{
         include:[User],
         attributes:{exclude:['createdAt','updatedAt']}
