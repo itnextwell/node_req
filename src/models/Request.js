@@ -10,6 +10,10 @@ const Request = sequelize.define('request', {
         type: DataTypes.BOOLEAN,
         allowNull: false
     },
+    isProcessed: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false // Inicialmente, una solicitud no está procesada
+    }
 });
 
 module.exports = Request;

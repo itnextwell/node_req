@@ -7,11 +7,12 @@ const Request = require('../models/Request');
 const getAll = catchError(async(req, res) => {
     const userId=req.user.id
     const userRol=req.user.rol
-    
+    const orderOption = [['createdAt', 'DESC']]
     if(userRol==='admin'){
         const results = await Elemento.findAll({
             include:[Request],
             attributes:{exclude:['createdAt','updatedAt']},
+            order: orderOption,
         });
         return res.json(results);
 
@@ -19,6 +20,7 @@ const getAll = catchError(async(req, res) => {
         const results = await Elemento.findAll({
             include:[User,Request],
             attributes:{exclude:['createdAt','updatedAt']},
+            order: orderOption,
             where:{userId}
         
         });
