@@ -7,6 +7,6 @@ const routerRequest = require('./request.router');
 
 router.use('/elementos',verifyJwt, routerElemento)
 router.use('/users', routerUser)
-router.use('/requests',routerRequest)
+router.use('/requests',verifyJwt,routerRequest)
 
 module.exports = router;
